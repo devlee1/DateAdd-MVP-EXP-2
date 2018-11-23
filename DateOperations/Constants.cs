@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAdd
+namespace DateOperations
 {
     public class Constants
     {

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateAdd.Tests", "DateAdd.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateAdd", "DateAdd\DateAdd.csproj", "{4BAD218A-1562-4C3F-ADE8-09E63F1FEB30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateOperations", "DateOperations\DateOperations.csproj", "{04CC756D-0F09-4377-94CA-76E1F764C6A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4BAD218A-1562-4C3F-ADE8-09E63F1FEB30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BAD218A-1562-4C3F-ADE8-09E63F1FEB30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BAD218A-1562-4C3F-ADE8-09E63F1FEB30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CC756D-0F09-4377-94CA-76E1F764C6A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CC756D-0F09-4377-94CA-76E1F764C6A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CC756D-0F09-4377-94CA-76E1F764C6A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CC756D-0F09-4377-94CA-76E1F764C6A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
