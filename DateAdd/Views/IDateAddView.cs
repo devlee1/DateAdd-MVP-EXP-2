@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DateAdd.Views
 {
-    public interface IDateAdd
+    public interface IDateAddView
     {
         string DateText { get; set; }
         string DaysToAddText { get; set; }

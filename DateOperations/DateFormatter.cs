@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DateOperations
 {
-    public class DateFormatter
+    public class DateFormatter : IDateFormatter
     {
         public void GetDateElements(string date, out int year, out int month, out int day)
         {
@@ -21,6 +21,11 @@ namespace DateOperations
             {
                 throw new ArgumentException(Constants.invalidDateFormatErrorMessage);
             }
+        }
+
+        public string FormatDate(int year, int month, int day)
+        {
+            return day.ToString("00") + Constants.seperator + month.ToString("00") + Constants.seperator + year.ToString("0000");
         }
     }
 }

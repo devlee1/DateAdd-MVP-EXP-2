@@ -5,35 +5,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DateAdd.Models;
 
 namespace DateAdd.Presenters
 {
-    public class DateAddPresenter
+    public class DateAddPresenter : IDateAddPresenter
     {
-        IDateAdd dateAddView;
+        private readonly IDateAddModel dateAddModel;
 
-        public DateAddPresenter(IDateAdd view)
+        public IDateAddView DateAddView
+        { get; set; }
+
+        public DateAddPresenter(IDateAddModel dateAddModel) 
         {
-            dateAddView = view;
+            this.dateAddModel = dateAddModel;
         }
 
-        public void AddDays()
+        public void SetDateAddView(IDateAddView dateAddView)
         {
-            var date = dateAddView.DateText;
+            DateAddView = dateAddView;
+        }
+
+        public string AddDays()
+        {
+            var result = string.Empty;
 
             try
             {
-                var dateFormatter = new DateFormatter();
-                dateFormatter.GetDateElements(date, out int year, out int month, out int day);
-
-                var dateCalculator = new DateCalculator(year, month, day);
-
-                dateAddView.OutputText = dateCalculator.AddDays(int.Parse(dateAddView.DaysToAddText));
+                result = dateAddModel.AddDays(DateAddView.DateText, DateAddView.DaysToAddText);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                dateAddView.OutputText = ex.Message;
+                result = ex.Message;
             }
+
+            return result;
         }
     }
 }

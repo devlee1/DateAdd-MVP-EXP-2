@@ -32,45 +32,35 @@ namespace DateAdd.Tests
         [TestCase("31/12/2999", 0, ExpectedResult = "31/12/2999")]
         public string AddDaysTest(string date, int daysToAdd)
         {
-            var dateFormatter = new DateFormatter();
-            dateFormatter.GetDateElements(date, out int year, out int month, out int days);
+            var dateCalculator = new DateCalculator(new DateFormatter());
 
-            var dateCalculator = new DateCalculator(year, month, days);
-
-            return dateCalculator.AddDays(daysToAdd);
+            return dateCalculator.AddDays(date, daysToAdd);
         }
 
-        [TestCase("32/01/2018",1)]
+        [TestCase("32/01/2018", 1)]
         public void AddDaysTest_Exception_InvalidDate(string date, int daysToAdd)
         {
-            var dateFormatter = new DateFormatter();
-            dateFormatter.GetDateElements(date, out int year, out int month, out int days);
+            var dateCalculator = new DateCalculator(new DateFormatter());
 
-            var ex = Assert.Throws<ArgumentException>(() => new DateCalculator(year, month, days));
+            var ex = Assert.Throws<ArgumentException>(() => dateCalculator.AddDays(date, daysToAdd)); 
             Assert.That(ex.Message, Is.EqualTo(Constants.invalidDateErrorMessage));
         }
 
         [TestCase("31/01/2018", 1000000)]
         public void AddDaysTest_Exception_MaxDate(string date, int daysToAdd)
         {
-            var dateFormatter = new DateFormatter();
-            dateFormatter.GetDateElements(date, out int year, out int month, out int days);
+            var dateCalculator = new DateCalculator(new DateFormatter());
 
-            var dateCalculator = new DateCalculator(year, month, days);
-
-            var ex = Assert.Throws<ArgumentException>(() => dateCalculator.AddDays(daysToAdd));
+            var ex = Assert.Throws<ArgumentException>(() => dateCalculator.AddDays(date, daysToAdd));
             Assert.That(ex.Message, Is.EqualTo(Constants.yearMaxExceededErrorMessage));
         }
 
         [TestCase("31/01/2018", -1000000)]
         public void AddDaysTest_Exception_MinDate(string date, int daysToAdd)
         {
-            var dateFormatter = new DateFormatter();
-            dateFormatter.GetDateElements(date, out int year, out int month, out int days);
+            var dateCalculator = new DateCalculator(new DateFormatter());
 
-            var dateCalculator = new DateCalculator(year, month, days);
-
-            var ex = Assert.Throws<ArgumentException>(() => dateCalculator.AddDays(daysToAdd));
+            var ex = Assert.Throws<ArgumentException>(() => dateCalculator.AddDays(date, daysToAdd));
             Assert.That(ex.Message, Is.EqualTo(Constants.yearMinExceededErrorMessage));
         }
     }

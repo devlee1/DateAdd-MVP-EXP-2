@@ -12,10 +12,13 @@ using System.Windows.Forms;
 
 namespace DateAdd
 {
-    public partial class Form1 : Form, IDateAdd
+    public partial class Form1 : Form, IDateAddView
     {
-        public Form1()
+        private IDateAddPresenter dateAddPresenter;
+
+        public Form1(IDateAddPresenter dateAddPresenter)
         {
+            this.dateAddPresenter = dateAddPresenter;
             InitializeComponent();
         }
 
@@ -55,11 +58,16 @@ namespace DateAdd
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var dateAddPresenter = new DateAddPresenter(this);
-            dateAddPresenter.AddDays();
+            dateAddPresenter.SetDateAddView(this);
+            OutputText = dateAddPresenter.AddDays();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }

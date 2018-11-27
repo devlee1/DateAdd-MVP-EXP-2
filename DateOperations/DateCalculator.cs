@@ -6,52 +6,45 @@ using System.Threading.Tasks;
 
 namespace DateOperations
 {
-    public class DateCalculator
+    public class DateCalculator : IDateCalculator
     {
         private int[] monthLengths = new int[] { 31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31 };
+        private IDateFormatter dateFormatter;
 
-        int year;
-        int month;
-        int day;
-
-        public DateCalculator(int year, int month, int day)
+        public DateCalculator(IDateFormatter dateFormatter)
         {
-            if ( ( day < 1 || GetMonthLength(year, month) < day) || year < Constants.yearMin || year > Constants.yearMax)
-            {
-                throw new ArgumentException(Constants.invalidDateErrorMessage);
-            }
-
-            this.year = year;
-            this.month = month;
-            this.day = day;
+            this.dateFormatter = dateFormatter;
         }
 
-        public string AddDays(int daysToAdd)
+        public string AddDays(string date, int daysToAdd)
         {
-            day += daysToAdd;
+            dateFormatter.GetDateElements(date, out int year, out int month, out int day);
+            return AddDays(year, month, day, daysToAdd);
+        }
 
-            if (daysToAdd == 0)
+        public string AddDays(int year, int month, int day, int daysToAdd)
+        {
+            if ( ( day < 1 || GetMonthLength(year, month) < day) || year < Constants.yearMin || year > Constants.yearMax)
+                throw new ArgumentException(Constants.invalidDateErrorMessage);
+
+            if (daysToAdd > 0)
             {
-                //null
-            }
-            else if (daysToAdd > 0)
-            {
-                AllocateMonthsYearsPositive();
+                return CalculateDayMonthsYearsPositive(year, month, day, daysToAdd);
             }
             else if (daysToAdd < 0)
             {
-                AllocateMonthsYearsNegative();
+                return CalculateDayMonthsYearsNegitive(year, month, day, daysToAdd);
             }
-
-            return day.ToString("00") + Constants.seperator + month.ToString("00") + Constants.seperator + year.ToString("0000");
+            else return dateFormatter.FormatDate(year, month, day);
         }
 
         /*
            Assesses the value of 'day', and if too large for the month, then successsively
            increments the month and year until value of day is appropriate for the month
         */
-        private void AllocateMonthsYearsPositive()
+        private string CalculateDayMonthsYearsPositive(int year, int month, int day, int daysToAdd)
         {
+            day += daysToAdd;
             var currentMonthDays = GetMonthLength(year, month);
 
             while (day > currentMonthDays)
@@ -71,14 +64,17 @@ namespace DateOperations
 
                 currentMonthDays = GetMonthLength(year, month);
             }
+
+            return dateFormatter.FormatDate(year, month, day);
         }
 
         /*
            Assesses the value of 'day', and if too low for the month, then successsively
            decrements the month and year until value of day is appropriate for the month
         */
-        private void AllocateMonthsYearsNegative()
+        private string CalculateDayMonthsYearsNegitive(int year, int month, int day, int daysToAdd)
         {
+            day += daysToAdd;
             var previousMonthDays = GetPreviousMonthLength(year, month);
 
             while (day < 1)
@@ -98,6 +94,7 @@ namespace DateOperations
                 }
                 previousMonthDays = GetPreviousMonthLength(year, month);
             }
+            return dateFormatter.FormatDate(year, month, day);
         }
 
         private int GetPreviousMonthLength(int year, int month)
